@@ -1,0 +1,6 @@
+# pyproject.toml
+[tool.pytest.ini_options]
+# Add the project root to the Python path
+pythonpath = ["."] 
+# Alternatively, if your app is deeply nested, specify the path:
+# pythonpath = ["/"]
