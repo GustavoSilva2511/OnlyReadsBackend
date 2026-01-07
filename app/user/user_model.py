@@ -7,6 +7,7 @@ from sqlalchemy.orm import (
     mapped_column
 )
 
+from datetime import datetime
 
 from models.base import Base
 
@@ -15,5 +16,7 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     first_name: Mapped[str] = mapped_column(String(50))
     last_name: Mapped[str] = mapped_column(String(50))
+    username: Mapped[str] = mapped_column(String(50), unique=True)
     email: Mapped[str] = mapped_column(String(100), unique=True)
     password: Mapped[str] = mapped_column(String(150))
+    created_at: Mapped[datetime]
