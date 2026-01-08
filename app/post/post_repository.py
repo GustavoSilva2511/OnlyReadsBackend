@@ -12,12 +12,12 @@ class PostRepository:
         return db.scalars(stmt).all()
 
 
-    async def get_post_by_user(self, db: Session, user_id: int) -> PostResponse:
+    async def get_post_by_user(self, db: Session, user_id: int) -> List[PostResponse]:
         stmt = (
             Select(Post)
             .where(Post.owner==user_id)
         )
-        return db.scalars(stmt).first()
+        return db.scalars(stmt).all()
 
 
     async def create_post(self, db: Session, post: PostInDb) -> PostResponse:

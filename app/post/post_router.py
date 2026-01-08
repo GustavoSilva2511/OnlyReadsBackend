@@ -29,7 +29,7 @@ async def get_posts(db: Session = Depends(get_db)):
 
 @router.get(
     "/my",
-    response_model=PostResponse,
+    response_model=List[PostResponse],
     status_code=status.HTTP_201_CREATED
 )
 async def get_my_posts(
