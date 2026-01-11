@@ -17,26 +17,34 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)]
 )
 
-
 @router.get(
-    "/recomended",
+    "/recommended",
     response_model=List[PostResponse],
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_200_OK
 )
-async def get_posts(db: Session = Depends(get_db)):
+async def get_recommended_posts(db: Session = Depends(get_db)):
     return await post_repository.get_recomended_posts(db)
-
 
 @router.get(
     "/my",
     response_model=List[PostResponse],
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_200_OK
 )
 async def get_my_posts(
     db: Session = Depends(get_db),
     current_user: Annotated[User, Depends(get_current_user)] = None
 ):
     return await post_repository.get_post_by_user(db, current_user.id)
+
+@router.get("/search")
+async def search_posts(
+    db: Session = Depends(get_db),
+    search: str = ""
+):
+    if search:
+        return await post_repository.search_posts(db, search)
+    
+    return await post_repository.get_recomended_posts(db)
 
 @router.post(
     "/",
@@ -48,3 +56,17 @@ async def create_post(
     post: PostInDb = None
 ):
     return await post_repository.create_post(db, post)
+
+
+@router.put(
+    "/{id}/like",
+    status_code=status.HTTP_204_NO_CONTENT
+)
+async def like_post(
+    id: int = None,
+    db: Session = Depends(get_db)
+):
+    res = await post_repository.anonymous_like_post(db, id)
+    print(res)
+    return res
+

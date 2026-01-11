@@ -11,7 +11,7 @@ router = APIRouter(prefix="/auth")
 
 @router.post("/login")
 async def auth_token(db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()):
-    user = await user_repository.get_user_by_email(db, form_data.username)
+    user: UserResponse = await user_repository.get_user_by_email(db, form_data.username)
     if not user or not auth_service.verify_password(form_data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -20,7 +20,7 @@ async def auth_token(db: Session = Depends(get_db), form_data: OAuth2PasswordReq
         )
 
     access_token = auth_service.create_access_token(
-        data={"sub": user.email}
+        data={"sub": user.email, "id": user.id}
     )
     
     return Token(access_token=access_token, token_type="bearer")

@@ -9,12 +9,15 @@ from sqlalchemy.orm import (
 
 
 from models.base import Base
+from datetime import datetime
+
 
 class Post(Base):
     __tablename__ = 'posts'
     id: Mapped[int] = mapped_column(primary_key=True)
-    owner: Mapped[str] = mapped_column(String(50))
+    owner: Mapped[int]
     title: Mapped[str] = mapped_column(String(50))
     content: Mapped[str] = mapped_column(String(1000))
-    private: Mapped[bool] = mapped_column()
-    date: Mapped[str] = mapped_column(String(30))
+    is_public: Mapped[bool] = mapped_column(default=True)
+    likes: Mapped[int] = mapped_column(default=0)
+    date: Mapped[datetime]
