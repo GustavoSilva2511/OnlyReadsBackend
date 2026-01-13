@@ -47,8 +47,8 @@ class PostRepository:
     async def search_posts(self, db: Session, search: str) -> List[PostResponse]:
         stmt = (
             select(Post)
-            .where(Post.title.contains(search.lower()))
             .where(Post.is_public==True)
+            .where(Post.title.startswith(search) or Post.title.contains(search))
             .order_by(desc(Post.likes))
         )
         return db.scalars(stmt).all()
