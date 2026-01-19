@@ -1,9 +1,14 @@
+from dotenv import load_dotenv
+from os import getenv
+
+load_dotenv()
+
 class Settings:
-    DATABASE_URL = "postgresql://neondb_owner:npg_HPdB6tlQoW7A@ep-dark-morning-acadr9yo-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    DATABASE_URL = getenv("DATABASE_URL")
     # DATABASE_URL = "sqlite:///database.db"
-    DATABASE_MEMORY_URL = "sqlite:///:memory:"
-    SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-    ALGORITHM = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES = 60*24
+    DATABASE_MEMORY_URL = getenv("DATABASE_MEMORY_URL")
+    SECRET_KEY = getenv("SECRET_KEY")
+    ALGORITHM = getenv("ALGORITHM")
+    ACCESS_TOKEN_EXPIRE_MINUTES = int(getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 settings = Settings()
